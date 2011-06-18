@@ -2,6 +2,7 @@ package de.xzise.bukkit.voteik;
 
 import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -18,8 +19,8 @@ public class VoteManager {
         //TODO: load votes
     }
     
-    public Vote startVote(String question) {
-        Vote vote = new Vote(question);
+    public Vote startVote(String question, String creator, Calendar finalDate) {
+        Vote vote = new Vote(question, creator, finalDate);
         this.votes.put(vote.getId(), vote);
         return vote;
     }

@@ -1,7 +1,7 @@
 name: Voteik
 main: de.xzise.bukkit.voteik.Voteik
 description: Voteik allows you to vote.
-version: 0.0.3
+version: 0.0.4
 authors:
     - 'xZise'
 commands:    

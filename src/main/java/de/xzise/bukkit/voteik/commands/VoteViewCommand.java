@@ -1,5 +1,7 @@
 package de.xzise.bukkit.voteik.commands;
 
+import java.util.Calendar;
+
 import org.bukkit.command.CommandSender;
 
 import de.xzise.MinecraftUtil;
@@ -18,13 +20,11 @@ public class VoteViewCommand extends CommonHelpableSubCommand {
     }
     
     public String[] getFullHelpText() {
-        // TODO Auto-generated method stub
-        return null;
+        return new String[] { "Shows the vote informations." };
     }
 
     public String getSmallHelpText() {
-        // TODO Auto-generated method stub
-        return null;
+        return "Views a vote";
     }
 
     public String getCommand() {
@@ -37,7 +37,7 @@ public class VoteViewCommand extends CommonHelpableSubCommand {
             if (id != null) {
                 Vote vote = this.manager.getVote(id);
                 if (vote != null) {
-                    sender.sendMessage("Vote #" + id);
+                    sender.sendMessage("Vote #" + id + " by "+ vote.getCreator());
                     sender.sendMessage(vote.getQuestion());
                     StringBuilder result = new StringBuilder("Result: ");
                     for (VoteResult voteResult : VoteResult.values()) {
@@ -49,6 +49,12 @@ public class VoteViewCommand extends CommonHelpableSubCommand {
                     result.append("Total: ");
                     result.append(vote.getVoteCount());
                     sender.sendMessage(result.toString());
+                    Calendar finalDate = vote.getFinalDate();
+                    if (finalDate != null) {
+                        sender.sendMessage("This vote runs until: " + finalDate.toString());
+                    } else {
+                        sender.sendMessage("This vote has no expiration date.");
+                    }
                 } else {
                     sender.sendMessage("The id is not a valid vote.");
                 }

@@ -21,18 +21,15 @@ public class VoteListCommand extends CommonHelpableSubCommand {
     }
     
     public String[] getFullHelpText() {
-        // TODO Auto-generated method stub
-        return null;
+        return new String[] { "List the votes." };
     }
 
     public String getSmallHelpText() {
-        // TODO Auto-generated method stub
-        return null;
+        return "List votes";
     }
 
     public String getCommand() {
-        // TODO Auto-generated method stub
-        return null;
+        return "vote list [#page]";
     }
 
     private static String truncate(String string, int charCount, String truncAppendix) {

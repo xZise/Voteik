@@ -1,39 +1,38 @@
 package de.xzise.bukkit.voteik;
 
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Set;
 import java.util.Map;
 
 import org.bukkit.entity.Player;
 
 public class Vote {
-
+    
     private static int nextId = 0;
     
     private final int id;
     private final String question;
+    private final String creator;
     private final Set<String> voted;
     private final Map<VoteResult, Integer> votes;
+    private final Calendar finalDate;
     
-    public Vote(String question) {
+    public Vote(String question, String creator, Calendar finalDate) {
         this.question = question;
+        this.creator = creator;
         this.voted = new HashSet<String>();
-        Map<VoteResult, Integer> votes;
-        try {
-            votes = new EnumMap<VoteResult, Integer>(VoteResult.class);
-        } catch (ExceptionInInitializerError e) {
-            votes = new HashMap<VoteResult, Integer>();
-            Voteik.getLogger().info("Couldn't create map with EnumMap class. Nothing broken, only for info.");
-        }
-        this.votes = votes;
+        this.votes = new EnumMap<VoteResult, Integer>(VoteResult.class);
+        this.finalDate = finalDate;
         this.id = nextId++;
         System.out.println("new id: " + this.id);
     }
     
-    public Vote(String question, Set<String> voted, Map<VoteResult, Integer> votes, int id) {
+    public Vote(String question, String creator, Calendar finalDate, Set<String> voted, Map<VoteResult, Integer> votes, int id) {
         this.question = question;
+        this.creator = creator;
+        this.finalDate = finalDate;
         this.voted = new HashSet<String>(voted);
         this.votes = new EnumMap<VoteResult, Integer>(votes);
         this.id = id;
@@ -51,7 +50,7 @@ public class Vote {
     }
     
     public boolean vote(Player player, VoteResult result) {
-        if (this.voted.add(player.getName())) {
+        if (!this.expired() && this.voted.add(player.getName())) {
             int voteCnt = getInt(this.votes.get(result)) + 1;
             this.votes.put(result, voteCnt);
             return true;
@@ -78,6 +77,18 @@ public class Vote {
     
     public String getQuestion() {
         return this.question;
+    }
+    
+    public String getCreator() {
+        return this.creator;
+    }
+    
+    public Calendar getFinalDate() {
+        return this.finalDate;
+    }
+    
+    public boolean expired() {
+        return this.finalDate == null ? false : this.finalDate.after(Calendar.getInstance());
     }
     
 }
