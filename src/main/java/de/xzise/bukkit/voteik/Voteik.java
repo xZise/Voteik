@@ -1,5 +1,7 @@
 package de.xzise.bukkit.voteik;
 
+import java.io.File;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Event.Priority;
@@ -49,7 +51,10 @@ public class Voteik extends JavaPlugin {
             }
         };
         
-        this.manager = new VoteManager();
+        File config = this.getDataFolder();
+        config.mkdirs();
+        
+        this.manager = new VoteManager(config);
         
         this.commands = new CommandMap(this);
         

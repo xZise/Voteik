@@ -12,7 +12,7 @@ import de.xzise.bukkit.voteik.VoteResult;
 import de.xzise.bukkit.voteik.Voteik;
 import de.xzise.commands.CommonHelpableSubCommand;
 import de.xzise.wrappers.permissions.PermissionsHandler;
-/* Temporary? */
+/* Temporary "vote vote"? */
 public class VoteCommand extends CommonHelpableSubCommand {
 
     private final VoteManager manager;
@@ -47,10 +47,13 @@ public class VoteCommand extends CommonHelpableSubCommand {
                         if (vote != null) {
                             VoteResult result = VoteResult.getVoteResult(parameters[2]);
                             if (result != null) {
-                                if (vote.vote((Player) sender, result)) {
-                                    sender.sendMessage(ChatColor.GREEN + "Successfully voted for #" + id + "!");
-                                } else {
+                                if (vote.voted(((Player) sender).getName())) {
                                     sender.sendMessage(ChatColor.RED + "You already voted.");
+                                } else if (vote.expired()) {
+                                    sender.sendMessage(ChatColor.RED + "This vote is already expired.");
+                                } else {
+                                    vote.vote((Player) sender, result);
+                                    sender.sendMessage(ChatColor.GREEN + "Successfully voted for #" + id + "!");
                                 }
                             } else {
                                 sender.sendMessage(ChatColor.RED + "Invalid vote.");

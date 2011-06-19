@@ -20,6 +20,7 @@ public class CommandMap extends CommonCommandMap {
         List<SubCommand> commands = new ArrayList<SubCommand>();
         commands.add(def);
         commands.add(helper);
+        commands.add(new BarCommand(plugin.getManager()));
         commands.add(new VoteStartCommand(plugin));
         commands.add(new VoteViewCommand(plugin.getManager()));
         commands.add(new VoteListCommand(plugin.getManager()));
